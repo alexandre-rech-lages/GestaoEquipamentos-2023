@@ -85,7 +85,9 @@ namespace GestaoEquipamentos.ConsoleApp
     internal class Program
     {
         static int ContadorDeEquipamento = 1;
-        
+
+        static int ContadorDeChamado = 1;
+
         static ArrayList listaIdsEquipamento = new ArrayList();
         static ArrayList listaNomesEquipamento = new ArrayList();
         static ArrayList listaPrecosEquipamento = new ArrayList();
@@ -111,34 +113,192 @@ namespace GestaoEquipamentos.ConsoleApp
                     if (opcaoCadastroEquipamentos == "s")
                         continue;
 
-                    if (opcaoCadastroEquipamentos == "1")
-                    {
-                        InserirNovoEquipamento();
-                    }
-                    else if (opcaoCadastroEquipamentos == "2")
-                    {
-                        bool temEquipamentos = VisualizarEquipamentos(true);
-
-                        if (temEquipamentos)
-                            Console.ReadLine();
-                    }
-                    else if (opcaoCadastroEquipamentos == "3")
-                    {
-                        EditarEquipamento();
-                    }
-                    else if (opcaoCadastroEquipamentos == "4")
-                    {
-                        //Excluir um equipamento existente
-                    }
+                    CadastroEquipamentos(opcaoCadastroEquipamentos);
                 }
                 else if (opcao == "2")
                 {
-                    //apresentar um submenu com o CRUD de Chamados
+                    string opcaoCadastroChamados = ApresentarMenuCadastroChamado();
+
+                    if (opcaoCadastroChamados == "s")
+                        continue;
+
+                    ControleChamados(opcaoCadastroChamados);
                 }
             }
         }
 
-        private static void EditarEquipamento()
+        private static void ControleChamados(string opcaoCadastroChamados)
+        {
+            if (opcaoCadastroChamados == "1")
+            {
+                InserirNovoChamado();
+            }
+            else if (opcaoCadastroChamados == "2")
+            {
+                bool temChamados = VisualizarChamados(true);
+
+                if (temChamados)
+                    Console.ReadLine();
+            }
+            else if (opcaoCadastroChamados == "3")
+            {
+                EditarChamado();
+            }
+            else if (opcaoCadastroChamados == "4")
+            {
+                //Excluir um equipamento existente
+                ExcluirChamado();
+            }
+        }
+
+        private static void ExcluirChamado()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void EditarChamado()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static bool VisualizarChamados(bool v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void InserirNovoChamado()
+        {
+            MostrarCabecalho("Cadastro de Chamados", "Inserindo Novo Chamado: ");
+
+            GravarChamado(ContadorDeChamado, "INSERIR");
+
+            IncrementarIdChamado();
+
+            ApresentarMensagem("Chamado inserido com sucesso!", ConsoleColor.Green);
+        }
+
+        private static void IncrementarIdChamado()
+        {
+            ContadorDeChamado++;
+        }
+
+        private static void GravarChamado(int id, string tipoOperacao)
+        {
+            VisualizarEquipamentos(false);
+
+            Console.WriteLine();
+
+            Console.Write("Digite o Id do equipamento para manutenção: ");
+            int idEquipamentoChamado = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Digite o título do chamado: ");
+            string titulo = Console.ReadLine();
+
+            Console.Write("Digite a descricao do chamado: ");
+            string descricao = Console.ReadLine();
+
+            Console.Write("Digite a data de abertura do chamado: ");
+            string dataAbertura = Console.ReadLine();
+
+            if (tipoOperacao == "INSERIR")
+            {
+                //utilizado para inserção
+
+                //listaIdsChamado.Add(id);
+                //listaIdsEquipamentoChamado.Add(idEquipamentoChamado);
+                //listaTitulosChamado.Add(titulo);
+                //listaDescricoesChamado.Add(descricao);
+                //listaDatasAberturaChamado.Add(dataAbertura);
+            }
+            else if (tipoOperacao == "EDITAR")
+            {
+                //utilizado para edição
+
+                //int posicao = listaIdsChamado.IndexOf(id);
+                //listaIdsChamado[posicao] = id;
+                //listaTituloChamado[posicao] = titulo;
+                //listaDescricoesChamado[posicao] = descricao;
+                //listaDatasAberturaChamado[posicao] = dataAbertura;
+            }
+        }
+
+        private static string ApresentarMenuCadastroChamado()
+        {
+            Console.Clear();
+
+            Console.WriteLine();
+
+            Console.WriteLine("Cadastro de Chamados");
+
+            Console.WriteLine();
+
+            Console.WriteLine("Digite 1 para Inserir um Novo Chamado");
+
+            Console.WriteLine("Digite 2 para Visulizar Chamados");
+
+            Console.WriteLine("Digite 3 para Editar Chamados");
+
+            Console.WriteLine("Digite 4 para Excluir Chamados");
+
+            Console.WriteLine();
+
+            Console.WriteLine("Digite s para voltar para o menu principal");
+
+            string opcao = Console.ReadLine();
+
+            return opcao;
+        }
+
+        private static void CadastroEquipamentos(string opcaoCadastroEquipamentos)
+        {
+            if (opcaoCadastroEquipamentos == "1")
+            {
+                InserirNovoEquipamento();
+            }
+            else if (opcaoCadastroEquipamentos == "2")
+            {
+                bool temEquipamentos = VisualizarEquipamentos(true);
+
+                if (temEquipamentos)
+                    Console.ReadLine();
+            }
+            else if (opcaoCadastroEquipamentos == "3")
+            {
+                EditarEquipamento();
+            }
+            else if (opcaoCadastroEquipamentos == "4")
+            {
+                //Excluir um equipamento existente
+                ExcluirEquipamento();
+            }
+        }
+
+        static void ExcluirEquipamento()
+        {
+            MostrarCabecalho("Cadastro de Equipamentos", "Excluindo Equipamento: ");
+
+            bool temEquipamentosGravados = VisualizarEquipamentos(false);
+
+            if (temEquipamentosGravados == false)
+                return;
+
+            Console.WriteLine();
+
+            int idSelecionado = EncontrarEquipamento();
+
+            int posicao = listaIdsEquipamento.IndexOf(idSelecionado);
+            
+            listaIdsEquipamento.RemoveAt(posicao);
+            listaNomesEquipamento.RemoveAt(posicao);
+            listaPrecosEquipamento.RemoveAt(posicao);
+            listaNumerosSerieEquipamento.RemoveAt(posicao);
+            listaDatasFabricaoEquipamento.RemoveAt(posicao);
+            listaFabricanteEquipamento.RemoveAt(posicao);
+
+            ApresentarMensagem("Equipamento excluído com sucesso!", ConsoleColor.Green);
+        }
+
+        static void EditarEquipamento()
         {
             MostrarCabecalho("Cadastro de Equipamentos", "Editando Equipamento: ");
 
@@ -146,6 +306,8 @@ namespace GestaoEquipamentos.ConsoleApp
 
             if (temEquipamentosGravados == false)
                 return;
+
+            Console.WriteLine();
 
             int idSelecionado = EncontrarEquipamento();
 

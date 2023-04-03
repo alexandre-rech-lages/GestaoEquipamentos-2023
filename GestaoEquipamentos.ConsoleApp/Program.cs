@@ -127,7 +127,8 @@ namespace GestaoEquipamentos.ConsoleApp
             }
         }
 
-        private static void ControleChamados(string opcaoCadastroChamados)
+        #region Chamados
+        static void ControleChamados(string opcaoCadastroChamados)
         {
             if (opcaoCadastroChamados == "1")
             {
@@ -151,22 +152,22 @@ namespace GestaoEquipamentos.ConsoleApp
             }
         }
 
-        private static void ExcluirChamado()
+        static void ExcluirChamado()
         {
             throw new NotImplementedException();
         }
 
-        private static void EditarChamado()
+        static void EditarChamado()
         {
             throw new NotImplementedException();
         }
 
-        private static bool VisualizarChamados(bool v)
+        static bool VisualizarChamados(bool v)
         {
             throw new NotImplementedException();
         }
 
-        private static void InserirNovoChamado()
+        static void InserirNovoChamado()
         {
             MostrarCabecalho("Cadastro de Chamados", "Inserindo Novo Chamado: ");
 
@@ -177,12 +178,12 @@ namespace GestaoEquipamentos.ConsoleApp
             ApresentarMensagem("Chamado inserido com sucesso!", ConsoleColor.Green);
         }
 
-        private static void IncrementarIdChamado()
+        static void IncrementarIdChamado()
         {
             ContadorDeChamado++;
         }
 
-        private static void GravarChamado(int id, string tipoOperacao)
+        static void GravarChamado(int id, string tipoOperacao)
         {
             VisualizarEquipamentos(false);
 
@@ -222,7 +223,7 @@ namespace GestaoEquipamentos.ConsoleApp
             }
         }
 
-        private static string ApresentarMenuCadastroChamado()
+        static string ApresentarMenuCadastroChamado()
         {
             Console.Clear();
 
@@ -249,7 +250,10 @@ namespace GestaoEquipamentos.ConsoleApp
             return opcao;
         }
 
-        private static void CadastroEquipamentos(string opcaoCadastroEquipamentos)
+        #endregion
+
+        #region Equipamentos
+        static void CadastroEquipamentos(string opcaoCadastroEquipamentos)
         {
             if (opcaoCadastroEquipamentos == "1")
             {
@@ -435,6 +439,8 @@ namespace GestaoEquipamentos.ConsoleApp
         {
             ContadorDeEquipamento++;
         }
+
+        #endregion
 
         static void ApresentarMensagem(string mensagem, ConsoleColor cor)
         {

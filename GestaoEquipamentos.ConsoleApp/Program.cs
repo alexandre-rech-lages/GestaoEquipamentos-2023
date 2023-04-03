@@ -1,20 +1,5 @@
 ﻿#region Requisitos
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endregion
 
 using System.Collections;
@@ -31,7 +16,8 @@ Critérios:
 •  Deve ter uma data de fabricação;  
 •  Deve ter uma fabricante; 
 
-*//** Requisito 1.2 
+*/
+/** Requisito 1.2 
 * Como funcionário, Junior quer ter a possibilidade 
 * de visualizar todos os equipamentos registrados em seu inventário
 
@@ -42,20 +28,23 @@ Critérios:
     •  Deve mostrar o número de série;  
     •  Deve mostrar a data de fabricação;  
     •  Deve mostrar o fabricante; 
-*//** Requisito 1.3 
+*/
+/** Requisito 1.3 
 * Como funcionário, Junior quer ter a possibilidade 
 * de editar um equipamento, sendo que ele possa editar todos os campos
 
    Critérios:
 
     •  Deve ter os mesmos critérios que o Requisito 1.1
-*//** Requisito 1.4 
+*/
+/** Requisito 1.4 
 * 
 * Como funcionário, Junior quer ter a possibilidade 
 * de excluir um equipamento que esteja registrado.    
 * 
 *    •   A lista de equipamentos deve ser atualizada
-*//** Requisito 2.1 
+*/
+/** Requisito 2.1 
 * 
 * Como funcionário, Junior quer ter a possibilidade 
 * de registrar os chamados de manutenções que são efetuadas nos equipamentos registrados    
@@ -64,7 +53,8 @@ Critérios:
         •  Deve ter a descrição do chamado;  
         •  Deve ter um equipamento;  
         •  Deve ter uma data de abertura;   
-*//** Requisito 2.2 
+*/
+/** Requisito 2.2 
 * 
 * Como funcionário, Junior quer ter a possibilidade de
 * visualizar todos os chamados registrados para controle.   
@@ -74,24 +64,27 @@ Critérios:
        •  Deve ter a descrição do chamado;  
        •  Deve ter um equipamento;  
        •  Deve ter uma data de abertura;   
-*//** Requisito 2.3 
+*/
+/** Requisito 2.3 
 * 
 * Como funcionário, Junior quer ter a possibilidade de
 * editar um chamado que esteja registrado, sendo que ele possa editar todos os campos   
 * 
         •  Deve ter os mesmos critérios que o Requisito 2.1  
-*//** Requisito 2.4 
+*/
+/** Requisito 2.4 
 * 
 * Como funcionário, Junior quer ter a possibilidade
 * de excluir um chamado
 * 
         •  A lista de chamados deve ser atualizada 
 */
+
 namespace GestaoEquipamentos.ConsoleApp
 {
     internal class Program
     {
-        static int id = 1;
+        static int ContadorDeEquipamento = 1;
         
         static ArrayList listaIdsEquipamento = new ArrayList();
         static ArrayList listaNomesEquipamento = new ArrayList();
@@ -124,11 +117,12 @@ namespace GestaoEquipamentos.ConsoleApp
                     }
                     else if (opcaoCadastroEquipamentos == "2")
                     {
-                        VisualizarEquipamentos();
+                        VisualizarEquipamentos(true);
                     }
                     else if (opcaoCadastroEquipamentos == "3")
                     {
                         //Editar um equipamento existente
+                        EditarEquipamento();
                     }
                     else if (opcaoCadastroEquipamentos == "4")
                     {
@@ -140,43 +134,52 @@ namespace GestaoEquipamentos.ConsoleApp
                     //apresentar um submenu com o CRUD de Chamados
                 }
             }
-        }       
-
-        static void VisualizarEquipamentos()
-        {
-            MostrarCabecalho("Cadastro de Equipamentos", "Visualizando Equipamentos: ");
-
-            if (listaIdsEquipamento.Count == 0) 
-            {
-                ApresentarMensagem("Nenhum equipamento cadastrado!", ConsoleColor.DarkYellow);            
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            Console.WriteLine("{0,-10} | {1,-40} | {2,-30}", "Id", "Nome", "Fabricante");
-
-            Console.WriteLine("---------------------------------------------------------------------------------------"  );
-
-            for (int i = 0; i < listaIdsEquipamento.Count; i++)
-            {
-                Console.WriteLine("{0,-10} | {1,-40} | {2,-30}",
-                    listaIdsEquipamento[i], listaNomesEquipamento[i], listaFabricanteEquipamento[i]);
-            }
-
-            Console.ResetColor();
-            Console.ReadLine();
         }
 
-        static void InserirNovoEquipamento()
+        private static void EditarEquipamento()
         {
-            MostrarCabecalho("Cadastro de Equipamentos", "Inserindo Novo Equipamento: ");
+            MostrarCabecalho("Cadastro de Equipamentos", "Editando Equipamento: ");
 
+            bool temEquipamentosGravados = VisualizarEquipamentos(false);
+
+            if (temEquipamentosGravados == false)
+                return;
+
+            int idSelecionado = EncontrarEquipamento();
+
+            GravarEquipamento(idSelecionado, "EDITAR");                      
+
+            ApresentarMensagem("Equipamento editado com sucesso!", ConsoleColor.Green);
+        }
+
+        static int EncontrarEquipamento()
+        {
+            int idSelecionado = 0;
+            bool idInvalido;
+
+            do
+            {
+                Console.Write("Digite o Id do Equipamento que deseja editar: ");
+                
+                idSelecionado = Convert.ToInt32(Console.ReadLine());
+                
+                idInvalido = listaIdsEquipamento.Contains(idSelecionado) == false;
+
+                if (idInvalido)                
+                    ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);                
+
+            } while (idInvalido);
+
+            return idSelecionado;
+        }
+
+        static void GravarEquipamento(int id, string tipoOperacao)
+        {
             string nome;
             bool nomeInvalido;
 
-            do {
-
+            do
+            {
                 nomeInvalido = false;
                 Console.Write("Digite o nome do Equipamento: ");
                 nome = Console.ReadLine();
@@ -184,7 +187,7 @@ namespace GestaoEquipamentos.ConsoleApp
                 if (nome.Length <= 6)
                 {
                     nomeInvalido = true;
-                    ApresentarMensagem("Nome inválido. Informe no mínimo 6 letras", ConsoleColor.Red);                  
+                    ApresentarMensagem("Nome inválido. Informe no mínimo 6 letras", ConsoleColor.Red);
                 }
             }
             while (nomeInvalido);
@@ -201,16 +204,72 @@ namespace GestaoEquipamentos.ConsoleApp
             Console.Write("Digite o Fabricante: ");
             string fabricante = Console.ReadLine();
             
-            listaIdsEquipamento.Add(id);
-            listaNomesEquipamento.Add(nome);
-            listaPrecosEquipamento.Add(preco);
-            listaNumerosSerieEquipamento.Add(numeroSerie);
-            listaDatasFabricaoEquipamento.Add(dataFabricacao);
-            listaFabricanteEquipamento.Add(fabricante);
+            if (tipoOperacao == "INSERIR")
+            {
+                //utilizado para inserção
+                listaIdsEquipamento.Add(id);
+                listaNomesEquipamento.Add(nome);
+                listaPrecosEquipamento.Add(preco);
+                listaNumerosSerieEquipamento.Add(numeroSerie);
+                listaDatasFabricaoEquipamento.Add(dataFabricacao);
+                listaFabricanteEquipamento.Add(fabricante);                
+            }
+            else if (tipoOperacao == "EDITAR")
+            {
+                //utilizado para edição
+                int posicao = listaIdsEquipamento.IndexOf(id);
 
-            id++;
+                listaIdsEquipamento[posicao] = id;
+                listaNomesEquipamento[posicao] = nome;
+                listaPrecosEquipamento[posicao] = preco;
+                listaNumerosSerieEquipamento[posicao] = numeroSerie;
+                listaDatasFabricaoEquipamento[posicao] = dataFabricacao;
+                listaFabricanteEquipamento[posicao] = fabricante;
+            }
+        }
 
-            ApresentarMensagem("Equipamento inserido com sucesso!", ConsoleColor.Green);           
+        static bool VisualizarEquipamentos(bool mostrarCabecalho)
+        {
+            if (mostrarCabecalho)
+                MostrarCabecalho("Cadastro de Equipamentos", "Visualizando Equipamentos: ");
+
+            if (listaIdsEquipamento.Count == 0) 
+            {
+                ApresentarMensagem("Nenhum equipamento cadastrado!", ConsoleColor.DarkYellow);            
+                return false;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            Console.WriteLine("{0,-10} | {1,-40} | {2,-30}", "Id", "Nome", "Fabricante");
+
+            Console.WriteLine("---------------------------------------------------------------------------------------"  );
+
+            for (int i = 0; i < listaIdsEquipamento.Count; i++)
+            {
+                Console.WriteLine("{0,-10} | {1,-40} | {2,-30}",
+                    listaIdsEquipamento[i], listaNomesEquipamento[i], listaFabricanteEquipamento[i]);
+            }
+
+            Console.ResetColor();
+            Console.ReadLine();
+            return true;
+        }
+
+        static void InserirNovoEquipamento()
+        {
+            MostrarCabecalho("Cadastro de Equipamentos", "Inserindo Novo Equipamento: ");
+
+            GravarEquipamento(ContadorDeEquipamento, "INSERIR");
+
+            IncrementarIdEquipamento();
+
+            ApresentarMensagem("Equipamento inserido com sucesso!", ConsoleColor.Green);
+        }
+
+        static void IncrementarIdEquipamento()
+        {
+            ContadorDeEquipamento++;
         }
 
         static void ApresentarMensagem(string mensagem, ConsoleColor cor)

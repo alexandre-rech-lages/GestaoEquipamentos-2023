@@ -117,11 +117,13 @@ namespace GestaoEquipamentos.ConsoleApp
                     }
                     else if (opcaoCadastroEquipamentos == "2")
                     {
-                        VisualizarEquipamentos(true);
+                        bool temEquipamentos = VisualizarEquipamentos(true);
+
+                        if (temEquipamentos)
+                            Console.ReadLine();
                     }
                     else if (opcaoCadastroEquipamentos == "3")
                     {
-                        //Editar um equipamento existente
                         EditarEquipamento();
                     }
                     else if (opcaoCadastroEquipamentos == "4")
@@ -252,7 +254,7 @@ namespace GestaoEquipamentos.ConsoleApp
             }
 
             Console.ResetColor();
-            Console.ReadLine();
+            
             return true;
         }
 

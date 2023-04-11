@@ -1,16 +1,13 @@
-﻿using System.Collections;
+﻿using GestaoEquipamentos.ConsoleApp.ModuloChamados;
+using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp
 {
     public class CadastroChamado
     {
-        static int ContadorDeChamado = 1;
+        static int ContadorDeChamado = 1;       
 
-        static ArrayList listaIdsChamado = new ArrayList();
-        static ArrayList listaTitulosChamado = new ArrayList();
-        static ArrayList listaIdsEquipamentoChamado = new ArrayList();
-        static ArrayList listaDescricoesChamado = new ArrayList();
-        static ArrayList listaDatasAberturaChamado = new ArrayList();
+        static ArrayList listaChamados = new ArrayList();
 
         public static void ControleChamados(string opcaoCadastroChamados)
         {
@@ -49,14 +46,10 @@ namespace GestaoEquipamentos.ConsoleApp
 
             int idSelecionado = EncontrarChamado();
 
-            int posicao = listaIdsChamado.IndexOf(idSelecionado);
+            Chamado chamado = SelecionarChamadoPorId(idSelecionado);
 
-            listaIdsChamado.RemoveAt(posicao);
-            listaTitulosChamado.RemoveAt(posicao);
-            listaDescricoesChamado.RemoveAt(posicao);
-            listaIdsEquipamentoChamado.RemoveAt(posicao);
-            listaDatasAberturaChamado.RemoveAt(posicao);
-
+            listaChamados.Remove(chamado);
+           
             Program.ApresentarMensagem("Chamado excluído com sucesso!", ConsoleColor.Green);
         }
 
@@ -89,7 +82,7 @@ namespace GestaoEquipamentos.ConsoleApp
 
                 idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-                idInvalido = listaIdsChamado.Contains(idSelecionado) == false;
+                idInvalido = SelecionarChamadoPorId(idSelecionado) == null;
 
                 if (idInvalido)
                     Program.ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
@@ -99,12 +92,28 @@ namespace GestaoEquipamentos.ConsoleApp
             return idSelecionado;
         }
 
+        private static Chamado SelecionarChamadoPorId(int idSelecionado)
+        {
+            Chamado chamado = null;
+
+            foreach (Chamado c in listaChamados)
+            {
+                if (c.id == idSelecionado)
+                {
+                    chamado = c; 
+                    break;
+                }
+            }
+
+            return chamado;
+        }
+
         static bool VisualizarChamados(bool mostrarCabecalho)
         {
             if (mostrarCabecalho)
                 Program.MostrarCabecalho("Controle de Chamados", "Visualizando Chamados: ");
 
-            if (listaIdsChamado.Count == 0)
+            if (listaChamados.Count == 0)
             {
                 Program.ApresentarMensagem("Nenhum chamado cadastrado!", ConsoleColor.DarkYellow);
                 return false;
@@ -117,28 +126,17 @@ namespace GestaoEquipamentos.ConsoleApp
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------");
 
 
-            for (int i = 0; i < listaIdsChamado.Count; i++)
+            foreach(Chamado c in listaChamados) 
             {
-                string nomeEquipamento = ObterNomeEquipamento((int)listaIdsEquipamentoChamado[i]);
-
                 Console.WriteLine("{0,-10} | {1,-40} | {2,-30} | {3,-30}",
-                    listaIdsChamado[i], listaTitulosChamado[i], nomeEquipamento, listaDatasAberturaChamado[i]);
+                    c.id, c.titulo, c.equipamento.nome, c.dataAbertura);               
             }
 
             Console.ResetColor();
 
             return true;
         }
-
-        private static string ObterNomeEquipamento(int id)
-        {
-            //int posicao = CadastroEquipamento.listaIdsEquipamento.IndexOf(id);
-
-            //string nomeEquipamento = (string)CadastroEquipamento.listaNomesEquipamento[posicao];
-
-            return "Não implementado";
-        }
-
+      
         static void InserirNovoChamado()
         {
             Program.MostrarCabecalho("Cadastro de Chamados", "Inserindo Novo Chamado: ");
@@ -161,7 +159,7 @@ namespace GestaoEquipamentos.ConsoleApp
 
             Console.WriteLine();
 
-            int idEquipamentoChamado = CadastroEquipamento.EncontrarEquipamento();
+            int idEquipamentoChamado = CadastroEquipamento.EncontrarIdEquipamento();
 
             Console.Write("Digite o título do chamado: ");
             string titulo = Console.ReadLine();
@@ -174,23 +172,23 @@ namespace GestaoEquipamentos.ConsoleApp
 
             if (tipoOperacao == "INSERIR")
             {
-                //utilizado para inserção
-                listaIdsChamado.Add(id);
-                listaIdsEquipamentoChamado.Add(idEquipamentoChamado);
-                listaTitulosChamado.Add(titulo);
-                listaDescricoesChamado.Add(descricao);
-                listaDatasAberturaChamado.Add(dataAbertura);
+                Chamado chamado = new Chamado();
+                chamado.id = id;
+                chamado.titulo = titulo;
+                chamado.descricao = descricao;
+                chamado.dataAbertura = dataAbertura;
+                chamado.equipamento = CadastroEquipamento.SelecionarEquipamentoPorId(idEquipamentoChamado);
+
+                listaChamados.Add(chamado);
             }
             else if (tipoOperacao == "EDITAR")
             {
-                //utilizado para edição
-
-                int posicao = listaIdsChamado.IndexOf(id);
-                listaIdsChamado[posicao] = id;
-                listaIdsEquipamentoChamado[posicao] = idEquipamentoChamado;
-                listaTitulosChamado[posicao] = titulo;
-                listaDescricoesChamado[posicao] = descricao;
-                listaDatasAberturaChamado[posicao] = dataAbertura;
+                Chamado chamado = SelecionarChamadoPorId(id);
+                chamado.id = id;
+                chamado.titulo = titulo;
+                chamado.descricao = descricao;
+                chamado.dataAbertura = dataAbertura;
+                chamado.equipamento = CadastroEquipamento.SelecionarEquipamentoPorId(idEquipamentoChamado);
             }
         }
 
@@ -223,11 +221,15 @@ namespace GestaoEquipamentos.ConsoleApp
 
         public static void CadastrarAlgunsChamadosAutomaticamente()
         {
-            listaIdsChamado.Add(ContadorDeChamado);
-            //listaIdsEquipamentoChamado.Add(CadastroEquipamento.listaIdsEquipamento[0]);
-            listaTitulosChamado.Add("Impressão fraca");
-            listaDescricoesChamado.Add("Mesmo trocando o toner, impressão continua fraca");
-            listaDatasAberturaChamado.Add("04/04/2023");
+            Chamado chamado = new Chamado();
+
+            chamado.id = ContadorDeChamado;
+            chamado.titulo = "Impressão fraca";
+            chamado.descricao = "Mesmo trocando o toner, impressão continua fraca";
+            chamado.dataAbertura = "04/04/2023";
+            chamado.equipamento = CadastroEquipamento.SelecionarEquipamentoPorId(1);
+
+            listaChamados.Add(chamado);
 
             ContadorDeChamado++;
         }

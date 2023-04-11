@@ -70,7 +70,7 @@ namespace GestaoEquipamentos.ConsoleApp
 
             Console.WriteLine();
 
-            int idSelecionado = EncontrarEquipamento();
+            int idSelecionado = EncontrarIdEquipamento();
 
             Equipamento equipamento = SelecionarEquipamentoPorId(idSelecionado);
 
@@ -90,14 +90,14 @@ namespace GestaoEquipamentos.ConsoleApp
 
             Console.WriteLine();
 
-            int idSelecionado = EncontrarEquipamento();
+            int idSelecionado = EncontrarIdEquipamento();
 
             GravarEquipamento(idSelecionado, "EDITAR");
 
             Program.ApresentarMensagem("Equipamento editado com sucesso!", ConsoleColor.Green);
         }
 
-        public static int EncontrarEquipamento()
+        public static int EncontrarIdEquipamento()
         {
             int idSelecionado;
             bool idInvalido;
@@ -235,13 +235,17 @@ namespace GestaoEquipamentos.ConsoleApp
 
         public static void CadastrarAlgunsEquipamentosAutomaticamente()
         {
-            //listaIdsEquipamento.Add(ContadorDeEquipamento);
-            //listaNomesEquipamento.Add("Impressora");
-            //listaPrecosEquipamento.Add(1500);
-            //listaNumerosSerieEquipamento.Add("123-abc");
-            //listaDatasFabricaoEquipamento.Add("12/12/2022");
-            //listaFabricanteEquipamento.Add("Lexmark");
+            Equipamento equipamento = new Equipamento();
 
+            equipamento.id = ContadorDeEquipamento;
+            equipamento.nome = "Impressora";
+            equipamento.preco = 1500;
+            equipamento.numeroSerie = "123-abc";
+            equipamento.dataFabricacao = "12/12/2022";
+            equipamento.fabricante = "Lexmark";
+
+            listaEquipamentos.Add(equipamento);
+       
             ContadorDeEquipamento++;
         }
         

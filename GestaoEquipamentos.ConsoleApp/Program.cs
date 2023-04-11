@@ -80,8 +80,8 @@ namespace GestaoEquipamentos.ConsoleApp
     {               
         static void Main(string[] args)
         {
-            //CadastroEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
-            //CadastroChamado.CadastrarAlgunsChamadosAutomaticamente();
+            CadastroEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
+            CadastroChamado.CadastrarAlgunsChamadosAutomaticamente();
 
             while (true)
             {

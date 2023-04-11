@@ -132,11 +132,11 @@ namespace GestaoEquipamentos.ConsoleApp
 
         private static string ObterNomeEquipamento(int id)
         {
-            int posicao = CadastroEquipamento.listaIdsEquipamento.IndexOf(id);
+            //int posicao = CadastroEquipamento.listaIdsEquipamento.IndexOf(id);
 
-            string nomeEquipamento = (string)CadastroEquipamento.listaNomesEquipamento[posicao];
+            //string nomeEquipamento = (string)CadastroEquipamento.listaNomesEquipamento[posicao];
 
-            return nomeEquipamento;
+            return "Não implementado";
         }
 
         static void InserirNovoChamado()
@@ -224,7 +224,7 @@ namespace GestaoEquipamentos.ConsoleApp
         public static void CadastrarAlgunsChamadosAutomaticamente()
         {
             listaIdsChamado.Add(ContadorDeChamado);
-            listaIdsEquipamentoChamado.Add(CadastroEquipamento.listaIdsEquipamento[0]);
+            //listaIdsEquipamentoChamado.Add(CadastroEquipamento.listaIdsEquipamento[0]);
             listaTitulosChamado.Add("Impressão fraca");
             listaDescricoesChamado.Add("Mesmo trocando o toner, impressão continua fraca");
             listaDatasAberturaChamado.Add("04/04/2023");

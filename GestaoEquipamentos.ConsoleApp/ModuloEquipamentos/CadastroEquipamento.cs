@@ -6,12 +6,7 @@ namespace GestaoEquipamentos.ConsoleApp
     {
         static int ContadorDeEquipamento = 1;
 
-        public static ArrayList listaIdsEquipamento = new ArrayList();
-        public static ArrayList listaNomesEquipamento = new ArrayList();
-        static ArrayList listaPrecosEquipamento = new ArrayList();
-        static ArrayList listaNumerosSerieEquipamento = new ArrayList();
-        static ArrayList listaDatasFabricaoEquipamento = new ArrayList();
-        static ArrayList listaFabricanteEquipamento = new ArrayList();
+        static ArrayList listaEquipamentos = new ArrayList();
         
         public static string ApresentarMenuCadastroEquipamento()
         {
@@ -77,14 +72,9 @@ namespace GestaoEquipamentos.ConsoleApp
 
             int idSelecionado = EncontrarEquipamento();
 
-            int posicao = listaIdsEquipamento.IndexOf(idSelecionado);
+            Equipamento equipamento = SelecionarEquipamentoPorId(idSelecionado);
 
-            listaIdsEquipamento.RemoveAt(posicao);
-            listaNomesEquipamento.RemoveAt(posicao);
-            listaPrecosEquipamento.RemoveAt(posicao);
-            listaNumerosSerieEquipamento.RemoveAt(posicao);
-            listaDatasFabricaoEquipamento.RemoveAt(posicao);
-            listaFabricanteEquipamento.RemoveAt(posicao);
+            listaEquipamentos.Remove(equipamento);          
 
             Program.ApresentarMensagem("Equipamento excluído com sucesso!", ConsoleColor.Green);
         }
@@ -118,7 +108,7 @@ namespace GestaoEquipamentos.ConsoleApp
 
                 idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-                idInvalido = listaIdsEquipamento.Contains(idSelecionado) == false;
+                idInvalido = SelecionarEquipamentoPorId(idSelecionado) == null;
 
                 if (idInvalido)
                     Program.ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
@@ -161,26 +151,43 @@ namespace GestaoEquipamentos.ConsoleApp
 
             if (tipoOperacao == "INSERIR")
             {
-                //utilizado para inserção
-                listaIdsEquipamento.Add(id);
-                listaNomesEquipamento.Add(nome);
-                listaPrecosEquipamento.Add(preco);
-                listaNumerosSerieEquipamento.Add(numeroSerie);
-                listaDatasFabricaoEquipamento.Add(dataFabricacao);
-                listaFabricanteEquipamento.Add(fabricante);
+                Equipamento equipamento = new Equipamento();
+
+                equipamento.id = id;
+                equipamento.nome = nome;
+                equipamento.preco = preco;
+                equipamento.numeroSerie = numeroSerie;
+                equipamento.dataFabricacao = dataFabricacao;
+                equipamento.fabricante = fabricante;
+
+                listaEquipamentos.Add(equipamento);
+              
             }
             else if (tipoOperacao == "EDITAR")
             {
-                //utilizado para edição
-                int posicao = listaIdsEquipamento.IndexOf(id);
-
-                listaIdsEquipamento[posicao] = id;
-                listaNomesEquipamento[posicao] = nome;
-                listaPrecosEquipamento[posicao] = preco;
-                listaNumerosSerieEquipamento[posicao] = numeroSerie;
-                listaDatasFabricaoEquipamento[posicao] = dataFabricacao;
-                listaFabricanteEquipamento[posicao] = fabricante;
+                Equipamento equipamento = SelecionarEquipamentoPorId(id);
+                equipamento.nome = nome;
+                equipamento.preco = preco;
+                equipamento.numeroSerie = numeroSerie;
+                equipamento.dataFabricacao = dataFabricacao;
+                equipamento.fabricante = fabricante;
             }
+        }
+
+        public static Equipamento SelecionarEquipamentoPorId(int id)
+        {
+            Equipamento equipamento = null;
+
+            foreach (Equipamento e in listaEquipamentos)
+            {
+                if (e.id == id)
+                {
+                    equipamento = e;
+                    break;
+                }
+            }
+
+            return equipamento;
         }
 
         public static bool VisualizarEquipamentos(bool mostrarCabecalho)
@@ -188,7 +195,7 @@ namespace GestaoEquipamentos.ConsoleApp
             if (mostrarCabecalho)
                 Program.MostrarCabecalho("Cadastro de Equipamentos", "Visualizando Equipamentos: ");
 
-            if (listaIdsEquipamento.Count == 0)
+            if (listaEquipamentos.Count == 0)
             {
                 Program.ApresentarMensagem("Nenhum equipamento cadastrado!", ConsoleColor.DarkYellow);
                 return false;
@@ -200,12 +207,11 @@ namespace GestaoEquipamentos.ConsoleApp
 
             Console.WriteLine("---------------------------------------------------------------------------------------");
 
-            for (int i = 0; i < listaIdsEquipamento.Count; i++)
+            foreach (Equipamento e in listaEquipamentos)
             {
-                Console.WriteLine("{0,-10} | {1,-40} | {2,-30}",
-                    listaIdsEquipamento[i], listaNomesEquipamento[i], listaFabricanteEquipamento[i]);
+                Console.WriteLine("{0,-10} | {1,-40} | {2,-30}", e.id, e.nome, e.fabricante);
             }
-
+         
             Console.ResetColor();
 
             return true;
@@ -229,12 +235,12 @@ namespace GestaoEquipamentos.ConsoleApp
 
         public static void CadastrarAlgunsEquipamentosAutomaticamente()
         {
-            listaIdsEquipamento.Add(ContadorDeEquipamento);
-            listaNomesEquipamento.Add("Impressora");
-            listaPrecosEquipamento.Add(1500);
-            listaNumerosSerieEquipamento.Add("123-abc");
-            listaDatasFabricaoEquipamento.Add("12/12/2022");
-            listaFabricanteEquipamento.Add("Lexmark");
+            //listaIdsEquipamento.Add(ContadorDeEquipamento);
+            //listaNomesEquipamento.Add("Impressora");
+            //listaPrecosEquipamento.Add(1500);
+            //listaNumerosSerieEquipamento.Add("123-abc");
+            //listaDatasFabricaoEquipamento.Add("12/12/2022");
+            //listaFabricanteEquipamento.Add("Lexmark");
 
             ContadorDeEquipamento++;
         }

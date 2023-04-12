@@ -49,9 +49,13 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
             if (erros.Count > 0)
             {
-                foreach (string erro in erros)
-                    Program.ApresentarMensagem(erro, ConsoleColor.Red);
-                
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                foreach (string erro in erros)                
+                    Console.WriteLine(erro);                
+
+                Console.ResetColor();
+
                 return;
             }
 

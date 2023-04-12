@@ -10,21 +10,12 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
         public static void Inserir(Equipamento equipamento)
         {
+            equipamento.id = ContadorDeEquipamento;
+
             listaEquipamentos.Add(equipamento);
 
             IncrementarIdEquipamento();
         }
-
-        public static void Editar(int id, Equipamento equipamentoAtualizado)
-        {
-            Equipamento equipamento = SelecionarPorId(id);
-
-            equipamento.nome = equipamentoAtualizado.nome;
-            equipamento.preco = equipamentoAtualizado.preco;
-            equipamento.numeroSerie = equipamentoAtualizado.numeroSerie;
-            equipamento.dataFabricacao = equipamentoAtualizado.dataFabricacao;
-            equipamento.fabricante = equipamentoAtualizado.fabricante;
-        }       
 
         public static Equipamento SelecionarPorId(int id)
         {
@@ -42,18 +33,29 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             return equipamento;
         }
 
-        public static ArrayList SelecionarTodos()
+        public static void Editar(int id, Equipamento equipamentoAtualizado)
         {
-            return listaEquipamentos;
+            Equipamento equipamento = SelecionarPorId(id);
+
+            equipamento.nome = equipamentoAtualizado.nome;
+            equipamento.preco = equipamentoAtualizado.preco;
+            equipamento.numeroSerie = equipamentoAtualizado.numeroSerie;
+            equipamento.dataFabricacao = equipamentoAtualizado.dataFabricacao;
+            equipamento.fabricante = equipamentoAtualizado.fabricante;
         }
 
-        internal static void Excluir(int id)
+        public static void Excluir(int id)
         {
             Equipamento equipamento = SelecionarPorId(id);
 
             listaEquipamentos.Remove(equipamento);
         }
 
+        public static ArrayList SelecionarTodos()
+        {
+            return listaEquipamentos;
+        }
+       
         public static void CadastrarAlgunsEquipamentosAutomaticamente()
         {
             Equipamento equipamento = new Equipamento();
@@ -70,9 +72,11 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             ContadorDeEquipamento++;
         }
 
+        #region métodos privados
         private static void IncrementarIdEquipamento()
         {
             ContadorDeEquipamento++;
         }
+        #endregion
     }
 }

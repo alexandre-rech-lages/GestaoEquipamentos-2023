@@ -1,4 +1,5 @@
-﻿using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
+﻿using GestaoEquipamentos.ConsoleApp.ModuloChamados;
+using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 
 namespace GestaoEquipamentos.ConsoleApp
 {
@@ -7,8 +8,7 @@ namespace GestaoEquipamentos.ConsoleApp
         static void Main(string[] args)
         {            
             RepositorioEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
-            CadastroChamado.CadastrarAlgunsChamadosAutomaticamente();                
-            
+            RepositorioChamado.CadastrarAlgunsChamadosAutomaticamente();                            
 
             while (true)
             {
@@ -46,12 +46,30 @@ namespace GestaoEquipamentos.ConsoleApp
                 }
                 else if (opcao == "2")
                 {
-                    string opcaoCadastroChamados = CadastroChamado.ApresentarMenuCadastroChamado();
+                    string opcaoCadastroChamados = TelaChamado.ApresentarMenuCadastroChamado();
 
                     if (opcaoCadastroChamados == "s")
                         continue;
 
-                    CadastroChamado.ControleChamados(opcaoCadastroChamados);
+                    if (opcaoCadastroChamados == "1")
+                    {
+                        TelaChamado.InserirNovoChamado();
+                    }
+                    else if (opcaoCadastroChamados == "2")
+                    {
+                        bool temChamados = TelaChamado.VisualizarChamados(true);
+
+                        if (temChamados)
+                            Console.ReadLine();
+                    }
+                    else if (opcaoCadastroChamados == "3")
+                    {
+                        TelaChamado.EditarChamado();
+                    }
+                    else if (opcaoCadastroChamados == "4")
+                    {
+                        TelaChamado.ExcluirChamado();
+                    }
                 }
             }
         }        

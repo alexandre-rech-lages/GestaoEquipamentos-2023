@@ -1,4 +1,5 @@
 ﻿using GestaoEquipamentos.ConsoleApp.ModuloChamados;
+using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp
@@ -121,15 +122,15 @@ namespace GestaoEquipamentos.ConsoleApp
 
             Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.WriteLine("{0,-10} | {1,-40} | {2,-30} | {3,-30}", "Id", "Título", "Equipamento", "Data de Abertura");
+            Console.WriteLine("{0,-10} | {1,-40} | {2,-30} | {3,-30} | {4,-30}", "Id", "Título", "Equipamento", "Fabricante", "Data de Abertura");
 
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------");
 
 
             foreach(Chamado c in listaChamados) 
             {
-                Console.WriteLine("{0,-10} | {1,-40} | {2,-30} | {3,-30}",
-                    c.id, c.titulo, c.equipamento.nome, c.dataAbertura);               
+                Console.WriteLine("{0,-10} | {1,-40} | {2,-30} | {3,-30} | {4,-30}",
+                    c.id, c.titulo, c.equipamento.nome, c.equipamento.fabricante,  c.dataAbertura);               
             }
 
             Console.ResetColor();
@@ -155,11 +156,11 @@ namespace GestaoEquipamentos.ConsoleApp
 
         static void GravarChamado(int id, string tipoOperacao)
         {
-            CadastroEquipamento.VisualizarEquipamentos(false);
+            TelaEquipamento.VisualizarEquipamentos(false);
 
             Console.WriteLine();
 
-            int idEquipamentoChamado = CadastroEquipamento.EncontrarIdEquipamento();
+            int idEquipamentoChamado = TelaEquipamento.EncontrarIdEquipamento();
 
             Console.Write("Digite o título do chamado: ");
             string titulo = Console.ReadLine();
@@ -177,7 +178,7 @@ namespace GestaoEquipamentos.ConsoleApp
                 chamado.titulo = titulo;
                 chamado.descricao = descricao;
                 chamado.dataAbertura = dataAbertura;
-                chamado.equipamento = CadastroEquipamento.SelecionarEquipamentoPorId(idEquipamentoChamado);
+                chamado.equipamento = RepositorioEquipamento.SelecionarPorId(idEquipamentoChamado);
 
                 listaChamados.Add(chamado);
             }
@@ -188,7 +189,7 @@ namespace GestaoEquipamentos.ConsoleApp
                 chamado.titulo = titulo;
                 chamado.descricao = descricao;
                 chamado.dataAbertura = dataAbertura;
-                chamado.equipamento = CadastroEquipamento.SelecionarEquipamentoPorId(idEquipamentoChamado);
+                chamado.equipamento = RepositorioEquipamento.SelecionarPorId(idEquipamentoChamado);
             }
         }
 
@@ -227,7 +228,7 @@ namespace GestaoEquipamentos.ConsoleApp
             chamado.titulo = "Impressão fraca";
             chamado.descricao = "Mesmo trocando o toner, impressão continua fraca";
             chamado.dataAbertura = "04/04/2023";
-            chamado.equipamento = CadastroEquipamento.SelecionarEquipamentoPorId(1);
+            chamado.equipamento = RepositorioEquipamento.SelecionarPorId(1);
 
             listaChamados.Add(chamado);
 

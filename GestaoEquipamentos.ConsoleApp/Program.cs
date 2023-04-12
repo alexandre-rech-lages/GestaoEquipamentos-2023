@@ -1,87 +1,14 @@
-﻿/** Requisito 1.1 
-* Como funcionário, Junior quer ter a possibilidade 
-* de registrar equipamentos
-
-Critérios:
-
-•  Deve ter um nome com no mínimo 6 caracteres;  
-•  Deve ter um preço de aquisição;  
-•  Deve ter um número de série;  
-•  Deve ter uma data de fabricação;  
-•  Deve ter uma fabricante; 
-
-*/
-/** Requisito 1.2 
-* Como funcionário, Junior quer ter a possibilidade 
-* de visualizar todos os equipamentos registrados em seu inventário
-
-   Critérios:
-
-    •  Deve mostrar o nome;  
-    •  Deve mostrar o preço de aquisição;  
-    •  Deve mostrar o número de série;  
-    •  Deve mostrar a data de fabricação;  
-    •  Deve mostrar o fabricante; 
-*/
-/** Requisito 1.3 
-* Como funcionário, Junior quer ter a possibilidade 
-* de editar um equipamento, sendo que ele possa editar todos os campos
-
-   Critérios:
-
-    •  Deve ter os mesmos critérios que o Requisito 1.1
-*/
-/** Requisito 1.4 
-* 
-* Como funcionário, Junior quer ter a possibilidade 
-* de excluir um equipamento que esteja registrado.    
-* 
-*    •   A lista de equipamentos deve ser atualizada
-*/
-/** Requisito 2.1 
-* 
-* Como funcionário, Junior quer ter a possibilidade 
-* de registrar os chamados de manutenções que são efetuadas nos equipamentos registrados    
-* 
-        •  Deve ter a título do chamado;  
-        •  Deve ter a descrição do chamado;  
-        •  Deve ter um equipamento;  
-        •  Deve ter uma data de abertura;   
-*/
-/** Requisito 2.2 
-* 
-* Como funcionário, Junior quer ter a possibilidade de
-* visualizar todos os chamados registrados para controle.   
-* 
-       •  Deve ter o id do chamado;  
-       •  Deve ter a título do chamado;  
-       •  Deve ter a descrição do chamado;  
-       •  Deve ter um equipamento;  
-       •  Deve ter uma data de abertura;   
-*/
-/** Requisito 2.3 
-* 
-* Como funcionário, Junior quer ter a possibilidade de
-* editar um chamado que esteja registrado, sendo que ele possa editar todos os campos   
-* 
-        •  Deve ter os mesmos critérios que o Requisito 2.1  
-*/
-/** Requisito 2.4 
-* 
-* Como funcionário, Junior quer ter a possibilidade
-* de excluir um chamado
-* 
-        •  A lista de chamados deve ser atualizada 
-*/
+﻿using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 
 namespace GestaoEquipamentos.ConsoleApp
 {
     internal class Program
     {               
         static void Main(string[] args)
-        {
-            CadastroEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
-            CadastroChamado.CadastrarAlgunsChamadosAutomaticamente();
+        {            
+            RepositorioEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
+            CadastroChamado.CadastrarAlgunsChamadosAutomaticamente();                
+            
 
             while (true)
             {
@@ -92,12 +19,30 @@ namespace GestaoEquipamentos.ConsoleApp
 
                 if (opcao == "1")
                 {
-                    string opcaoCadastroEquipamentos = CadastroEquipamento.ApresentarMenuCadastroEquipamento();
+                    string opcaoCadastroEquipamentos = TelaEquipamento.ApresentarMenuCadastroEquipamento();
 
                     if (opcaoCadastroEquipamentos == "s")
                         continue;
 
-                    CadastroEquipamento.CadastrarEquipamento(opcaoCadastroEquipamentos);
+                    if (opcaoCadastroEquipamentos == "1")
+                    {
+                        TelaEquipamento.InserirNovoEquipamento();
+                    }
+                    else if (opcaoCadastroEquipamentos == "2")
+                    {
+                        bool temEquipamentos = TelaEquipamento.VisualizarEquipamentos(true);
+
+                        if (temEquipamentos)
+                            Console.ReadLine();
+                    }
+                    else if (opcaoCadastroEquipamentos == "3")
+                    {
+                        TelaEquipamento.EditarEquipamento();
+                    }
+                    else if (opcaoCadastroEquipamentos == "4")
+                    {
+                        TelaEquipamento.ExcluirEquipamento();
+                    }
                 }
                 else if (opcao == "2")
                 {

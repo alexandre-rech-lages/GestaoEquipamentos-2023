@@ -7,8 +7,8 @@ namespace GestaoEquipamentos.ConsoleApp
 {
     public class TelaChamado : Tela
     {
-        public RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
-        public RepositorioChamado repositorioChamado = new RepositorioChamado();
+        public RepositorioEquipamento repositorioEquipamento = null;
+        public RepositorioChamado repositorioChamado = null;
 
         public TelaEquipamento telaEquipamento = null;
 

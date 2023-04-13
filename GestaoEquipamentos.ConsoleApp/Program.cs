@@ -2,7 +2,7 @@
 using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 
 namespace GestaoEquipamentos.ConsoleApp
-{
+{  
     internal class Program
     {
         static void Main(string[] args)
@@ -111,6 +111,6 @@ namespace GestaoEquipamentos.ConsoleApp
         }
     }
 
-    
+
 
 }

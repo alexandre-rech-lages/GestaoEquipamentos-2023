@@ -45,7 +45,6 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             if (erros.Count > 0)
             {
                 ApresentarErros(erros);
-
                 return;
             }
             
@@ -73,9 +72,7 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
             if (erros.Count > 0)
             {
-                foreach (string erro in erros)
-                    ApresentarMensagem(erro, ConsoleColor.Red);
-
+                ApresentarErros(erros);
                 return;
             }
 

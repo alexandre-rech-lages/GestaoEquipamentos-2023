@@ -1,15 +1,13 @@
 ﻿using System.Collections;
+using GestaoEquipamentos.ConsoleApp.Compartilhado;
 
 namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 {
-    public class TelaEquipamento
+    public class TelaEquipamento : Tela //a classe Tela é a mãe da classe TelaEquipamento
     {
+        public RepositorioEquipamento repositorioEquipamento = null;
 
-        /// <summary>
-        /// Esta função é responsável por apresentar as funcionalidades no cadastro de equipamentos
-        /// </summary>
-        /// <returns>A opção escolhida (1-Inserir, 2-Visualizar Todos, 3-Editar, 4-Excluir e S para sair)</returns>
-        public static string ApresentarMenuCadastroEquipamento()
+        public string ApresentarMenuCadastroEquipamento()
         {
             Console.Clear();
 
@@ -36,12 +34,9 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             return opcao;
         }
 
-        /// <summary>
-        /// Esta função é responsável por fazer a interação do usuário no processo de criação de um equipamento
-        /// </summary>
-        public static void InserirNovoEquipamento()
+        public void InserirNovoEquipamento()
         {
-            Program.MostrarCabecalho("Cadastro de Equipamentos", "Inserindo Novo Equipamento: ");
+            MostrarCabecalho("Cadastro de Equipamentos", "Inserindo Novo Equipamento: ");
 
             Equipamento novoEquipamento = ObterEquipamento();
 
@@ -49,24 +44,19 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
             if (erros.Count > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-
-                foreach (string erro in erros)                
-                    Console.WriteLine(erro);                
-
-                Console.ResetColor();
+                ApresentarErros(erros);
 
                 return;
             }
+            
+            repositorioEquipamento.Inserir(novoEquipamento);
 
-            RepositorioEquipamento.Inserir(novoEquipamento);
+            ApresentarMensagem("Equipamento inserido com sucesso!", ConsoleColor.Green);
+        }       
 
-            Program.ApresentarMensagem("Equipamento inserido com sucesso!", ConsoleColor.Green);
-        }
-
-        public static void EditarEquipamento()
+        public void EditarEquipamento()
         {
-            Program.MostrarCabecalho("Cadastro de Equipamentos", "Editando Equipamento: ");
+            MostrarCabecalho("Cadastro de Equipamentos", "Editando Equipamento: ");
 
             bool temEquipamentos = VisualizarEquipamentos(false);
 
@@ -84,19 +74,19 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             if (erros.Count > 0)
             {
                 foreach (string erro in erros)
-                    Program.ApresentarMensagem(erro, ConsoleColor.Red);
+                    ApresentarMensagem(erro, ConsoleColor.Red);
 
                 return;
             }
 
-            RepositorioEquipamento.Editar(idSelecionado, equipamentoAtualizado);
+            repositorioEquipamento.Editar(idSelecionado, equipamentoAtualizado);
 
-            Program.ApresentarMensagem("Equipamento editado com sucesso!", ConsoleColor.Green);
+            ApresentarMensagem("Equipamento editado com sucesso!", ConsoleColor.Green);
         }
 
-        public static void ExcluirEquipamento()
+        public void ExcluirEquipamento()
         {
-            Program.MostrarCabecalho("Cadastro de Equipamentos", "Excluindo Equipamento: ");
+            MostrarCabecalho("Cadastro de Equipamentos", "Excluindo Equipamento: ");
 
             bool temEquipamentosGravados = VisualizarEquipamentos(false);
 
@@ -107,21 +97,21 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
             int idSelecionado = EncontrarIdEquipamento();
 
-            RepositorioEquipamento.Excluir(idSelecionado);
+            repositorioEquipamento.Excluir(idSelecionado);
 
-            Program.ApresentarMensagem("Equipamento excluído com sucesso!", ConsoleColor.Green);
+            ApresentarMensagem("Equipamento excluído com sucesso!", ConsoleColor.Green);
         }
 
-        public static bool VisualizarEquipamentos(bool mostrarCabecalho)
+        public bool VisualizarEquipamentos(bool mostrarCabecalho)
         {
-            ArrayList listaEquipamentos = RepositorioEquipamento.SelecionarTodos();
+            ArrayList listaEquipamentos = repositorioEquipamento.SelecionarTodos();
 
             if (mostrarCabecalho)
-                Program.MostrarCabecalho("Cadastro de Equipamentos", "Visualizando Equipamentos: ");
+                MostrarCabecalho("Cadastro de Equipamentos", "Visualizando Equipamentos: ");
 
             if (listaEquipamentos.Count == 0)
             {
-                Program.ApresentarMensagem("Nenhum equipamento cadastrado!", ConsoleColor.DarkYellow);
+                ApresentarMensagem("Nenhum equipamento cadastrado!", ConsoleColor.DarkYellow);
                 return false;
             }
 
@@ -141,7 +131,7 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             return true;
         }
 
-        public static int EncontrarIdEquipamento()
+        public int EncontrarIdEquipamento()
         {
             int idSelecionado;
             bool idInvalido;
@@ -152,10 +142,10 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
                 idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-                idInvalido = RepositorioEquipamento.SelecionarPorId(idSelecionado) == null;
+                idInvalido = repositorioEquipamento.SelecionarPorId(idSelecionado) == null;
 
                 if (idInvalido)
-                    Program.ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
+                    ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
 
             } while (idInvalido);
 

@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using GestaoEquipamentos.ConsoleApp.Compartilhado;
+using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 {
-    public class Equipamento // Entidade
-    {
-        public int id;
+    public class Equipamento : Entidade
+    {        
         public string nome;
         public decimal preco;
         public string numeroSerie;

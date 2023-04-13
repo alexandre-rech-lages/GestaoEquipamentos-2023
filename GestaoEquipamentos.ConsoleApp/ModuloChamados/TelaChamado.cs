@@ -1,12 +1,18 @@
-﻿using GestaoEquipamentos.ConsoleApp.ModuloChamados;
+﻿using GestaoEquipamentos.ConsoleApp.Compartilhado;
+using GestaoEquipamentos.ConsoleApp.ModuloChamados;
 using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp
 {
-    public class TelaChamado
-    {       
-        public static string ApresentarMenuCadastroChamado()
+    public class TelaChamado : Tela
+    {
+        public RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
+        public RepositorioChamado repositorioChamado = new RepositorioChamado();
+
+        public TelaEquipamento telaEquipamento = null;
+
+        public string ApresentarMenuCadastroChamado()
         {
             Console.Clear();
 
@@ -33,9 +39,9 @@ namespace GestaoEquipamentos.ConsoleApp
             return opcao;
         }
         
-        public static void InserirNovoChamado()
+        public void InserirNovoChamado()
         {
-            Program.MostrarCabecalho("Cadastro de Chamados", "Inserindo Novo Chamado: ");
+            MostrarCabecalho("Cadastro de Chamados", "Inserindo Novo Chamado: ");
 
             Chamado chamado = ObterChamado();
 
@@ -43,24 +49,19 @@ namespace GestaoEquipamentos.ConsoleApp
 
             if (erros.Count > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-
-                foreach (string erro in erros)                
-                    Console.WriteLine( erro );
-                
-                Console.ResetColor();
+                ApresentarErros(erros);
 
                 return;
             }
-            
-            RepositorioChamado.Inserir(chamado);
 
-            Program.ApresentarMensagem("Chamado inserido com sucesso!", ConsoleColor.Green);
+            repositorioChamado.Inserir(chamado);
+
+            ApresentarMensagem("Chamado inserido com sucesso!", ConsoleColor.Green);
         }
-
-        public static void EditarChamado()
+       
+        public void EditarChamado()
         {
-            Program.MostrarCabecalho("Controle de Chamados", "Editando Chamado: ");
+            MostrarCabecalho("Controle de Chamados", "Editando Chamado: ");
 
             bool temChamados = VisualizarChamados(false);
 
@@ -78,19 +79,19 @@ namespace GestaoEquipamentos.ConsoleApp
             if (erros.Count > 0)
             {
                 foreach (string erro in erros)
-                    Program.ApresentarMensagem(erro, ConsoleColor.Red);
+                    ApresentarMensagem(erro, ConsoleColor.Red);
 
                 return;
             }
 
-            RepositorioChamado.Editar(idSelecionado, chamadoAtualizado);
+            repositorioChamado.Editar(idSelecionado, chamadoAtualizado);
 
-            Program.ApresentarMensagem("Chamado editado com sucesso!", ConsoleColor.Green);
+            ApresentarMensagem("Chamado editado com sucesso!", ConsoleColor.Green);
         }
 
-        public static void ExcluirChamado()
+        public void ExcluirChamado()
         {
-            Program.MostrarCabecalho("Controle de Chamados", "Excluindo Chamado: ");
+            MostrarCabecalho("Controle de Chamados", "Excluindo Chamado: ");
 
             bool temChamados = VisualizarChamados(false);
 
@@ -101,21 +102,21 @@ namespace GestaoEquipamentos.ConsoleApp
 
             int idSelecionado = EncontrarIdChamado();
 
-            RepositorioChamado.Excluir(idSelecionado);
+            repositorioChamado.Excluir(idSelecionado);
 
-            Program.ApresentarMensagem("Chamado excluído com sucesso!", ConsoleColor.Green);
+            ApresentarMensagem("Chamado excluído com sucesso!", ConsoleColor.Green);
         }
 
-        public static bool VisualizarChamados(bool mostrarCabecalho)
+        public bool VisualizarChamados(bool mostrarCabecalho)
         {
-            ArrayList listaChamados = RepositorioChamado.SelecionarTodos();
+            ArrayList listaChamados = repositorioChamado.SelecionarTodos();
 
             if (mostrarCabecalho)
-                Program.MostrarCabecalho("Controle de Chamados", "Visualizando Chamados: ");
+                MostrarCabecalho("Controle de Chamados", "Visualizando Chamados: ");
 
             if (listaChamados.Count == 0)
             {
-                Program.ApresentarMensagem("Nenhum chamado cadastrado!", ConsoleColor.DarkYellow);
+                ApresentarMensagem("Nenhum chamado cadastrado!", ConsoleColor.DarkYellow);
                 return false;
             }
 
@@ -139,16 +140,16 @@ namespace GestaoEquipamentos.ConsoleApp
 
         #region métodos privados
 
-        private static Chamado ObterChamado()
+        private Chamado ObterChamado()
         {
-            TelaEquipamento.VisualizarEquipamentos(false);
+            telaEquipamento.VisualizarEquipamentos(false);
 
             Console.WriteLine();
 
             Chamado chamado = new Chamado();
 
-            int idEquipamento = TelaEquipamento.EncontrarIdEquipamento();
-            chamado.equipamento = RepositorioEquipamento.SelecionarPorId(idEquipamento);
+            int idEquipamento = telaEquipamento.EncontrarIdEquipamento();
+            chamado.equipamento = repositorioEquipamento.SelecionarPorId(idEquipamento);
 
             Console.Write("Digite o título do chamado: ");
             chamado.titulo = Console.ReadLine();
@@ -161,7 +162,7 @@ namespace GestaoEquipamentos.ConsoleApp
 
             return chamado;
         }
-        private static int EncontrarIdChamado()
+        private int EncontrarIdChamado()
         {
             int idSelecionado;
             bool idInvalido;
@@ -172,10 +173,10 @@ namespace GestaoEquipamentos.ConsoleApp
 
                 idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-                idInvalido = RepositorioChamado.SelecionarPorId(idSelecionado) == null;
+                idInvalido = repositorioChamado.SelecionarPorId(idSelecionado) == null;
 
                 if (idInvalido)
-                    Program.ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
+                    ApresentarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
 
             } while (idInvalido);
 

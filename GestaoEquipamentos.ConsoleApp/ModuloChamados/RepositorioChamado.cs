@@ -1,28 +1,27 @@
-﻿using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
+﻿using GestaoEquipamentos.ConsoleApp.Compartilhado;
+using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp.ModuloChamados
 {
-    public class RepositorioChamado
+    public class RepositorioChamado : Repositorio
     {
-        private static int ContadorDeChamado = 1;
+        public RepositorioEquipamento repositorioEquipamento = null;
 
-        private static ArrayList listaChamados = new ArrayList();
-
-        public static void Inserir(Chamado chamado)
+        public void Inserir(Chamado chamado)
         {
-            chamado.id = ContadorDeChamado;
+            chamado.id = ContadorDeId;
 
-            listaChamados.Add(chamado);
+            listaRegistros.Add(chamado);
 
-            IncrementarIdChamado();
+            IncrementarId();
         }
 
-        public static Chamado SelecionarPorId(int idSelecionado)
+        public Chamado SelecionarPorId(int idSelecionado)
         {
             Chamado chamado = null;
 
-            foreach (Chamado c in listaChamados)
+            foreach (Chamado c in listaRegistros)
             {
                 if (c.id == idSelecionado)
                 {
@@ -34,7 +33,7 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloChamados
             return chamado;
         }
 
-        public static void Editar(int id, Chamado chamadoAtualizado)
+        public void Editar(int id, Chamado chamadoAtualizado)
         {
             Chamado chamado = SelecionarPorId(id);
 
@@ -44,43 +43,32 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloChamados
             chamado.equipamento = chamadoAtualizado.equipamento;
         }
 
-        public static void Excluir(int idSelecionado)
+        public void Excluir(int idSelecionado)
         {
             Chamado chamado = SelecionarPorId(idSelecionado);
 
-            listaChamados.Remove(chamado);
+            listaRegistros.Remove(chamado);
         }
 
-        public static ArrayList SelecionarTodos()
+        public ArrayList SelecionarTodos()
         {
-            return listaChamados;
+            return listaRegistros;
         }
        
-        public static void CadastrarAlgunsChamadosAutomaticamente()
+        public void CadastrarAlgunsChamadosAutomaticamente()
         {
             Chamado chamado = new Chamado();
 
-            chamado.id = ContadorDeChamado;
+            chamado.id = ContadorDeId;
             chamado.titulo = "Impressão fraca";
             chamado.descricao = "Mesmo trocando o toner, impressão continua fraca";
             chamado.dataAbertura = "04/04/2023";
-            chamado.equipamento = RepositorioEquipamento.SelecionarPorId(1);
+            chamado.equipamento = repositorioEquipamento.SelecionarPorId(1);
 
-            listaChamados.Add(chamado);
+            listaRegistros.Add(chamado);
 
-            ContadorDeChamado++;
+            ContadorDeId++;
         }
-
-        #region Métodos Privados
-
-        private static void IncrementarIdChamado()
-        {
-            ContadorDeChamado++;
-        }
-
-
-
-        #endregion
-
+       
     }
 }

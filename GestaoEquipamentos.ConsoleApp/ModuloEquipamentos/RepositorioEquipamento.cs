@@ -1,27 +1,24 @@
-﻿using System.Collections;
+﻿using GestaoEquipamentos.ConsoleApp.Compartilhado;
+using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 {
-    public class RepositorioEquipamento
-    {
-        private static int ContadorDeEquipamento = 1;
-
-        private static ArrayList listaEquipamentos = new ArrayList();
-
-        public static void Inserir(Equipamento equipamento)
+    public class RepositorioEquipamento : Repositorio
+    {        
+        public void Inserir(Equipamento equipamento)
         {
-            equipamento.id = ContadorDeEquipamento;
+            equipamento.id = ContadorDeId;
 
-            listaEquipamentos.Add(equipamento);
+            listaRegistros.Add(equipamento);
 
-            IncrementarIdEquipamento();
+            IncrementarId();
         }
 
-        public static Equipamento SelecionarPorId(int id)
+        public Equipamento SelecionarPorId(int id)
         {
             Equipamento equipamento = null;
 
-            foreach (Equipamento e in listaEquipamentos)
+            foreach (Equipamento e in listaRegistros)
             {
                 if (e.id == id)
                 {
@@ -33,7 +30,7 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             return equipamento;
         }
 
-        public static void Editar(int id, Equipamento equipamentoAtualizado)
+        public void Editar(int id, Equipamento equipamentoAtualizado)
         {
             Equipamento equipamento = SelecionarPorId(id);
 
@@ -44,39 +41,30 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
             equipamento.fabricante = equipamentoAtualizado.fabricante;
         }
 
-        public static void Excluir(int id)
+        public void Excluir(int id)
         {
             Equipamento equipamento = SelecionarPorId(id);
 
-            listaEquipamentos.Remove(equipamento);
+            listaRegistros.Remove(equipamento);
         }
 
-        public static ArrayList SelecionarTodos()
+        public ArrayList SelecionarTodos()
         {
-            return listaEquipamentos;
+            return listaRegistros;
         }
        
-        public static void CadastrarAlgunsEquipamentosAutomaticamente()
+        public void CadastrarAlgunsEquipamentosAutomaticamente()
         {
             Equipamento equipamento = new Equipamento();
 
-            equipamento.id = ContadorDeEquipamento;
+            equipamento.id = ContadorDeId;
             equipamento.nome = "Impressora";
             equipamento.preco = 1500;
             equipamento.numeroSerie = "123-abc";
             equipamento.dataFabricacao = "12/12/2022";
             equipamento.fabricante = "Lexmark";
 
-            listaEquipamentos.Add(equipamento);
-
-            ContadorDeEquipamento++;
-        }
-
-        #region métodos privados
-        private static void IncrementarIdEquipamento()
-        {
-            ContadorDeEquipamento++;
-        }
-        #endregion
+            Inserir(equipamento);
+        }  
     }
 }

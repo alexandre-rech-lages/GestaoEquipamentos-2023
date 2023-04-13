@@ -4,11 +4,24 @@ using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
 namespace GestaoEquipamentos.ConsoleApp
 {
     internal class Program
-    {               
+    {
         static void Main(string[] args)
-        {            
-            RepositorioEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
-            RepositorioChamado.CadastrarAlgunsChamadosAutomaticamente();                            
+        {
+            RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
+            repositorioEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
+
+            RepositorioChamado repositorioChamado = new RepositorioChamado();
+            repositorioChamado.repositorioEquipamento = repositorioEquipamento;
+
+            repositorioChamado.CadastrarAlgunsChamadosAutomaticamente();
+
+            TelaEquipamento telaEquipamento = new TelaEquipamento();
+            telaEquipamento.repositorioEquipamento = repositorioEquipamento;
+
+            TelaChamado telaChamado = new TelaChamado();
+            telaChamado.repositorioEquipamento = repositorioEquipamento;
+            telaChamado.repositorioChamado = repositorioChamado;
+            telaChamado.telaEquipamento = telaEquipamento;
 
             while (true)
             {
@@ -19,85 +32,59 @@ namespace GestaoEquipamentos.ConsoleApp
 
                 if (opcao == "1")
                 {
-                    string opcaoCadastroEquipamentos = TelaEquipamento.ApresentarMenuCadastroEquipamento();
+                    string opcaoCadastroEquipamentos = telaEquipamento.ApresentarMenuCadastroEquipamento();
 
                     if (opcaoCadastroEquipamentos == "s")
                         continue;
 
                     if (opcaoCadastroEquipamentos == "1")
                     {
-                        TelaEquipamento.InserirNovoEquipamento();
+                        telaEquipamento.InserirNovoEquipamento();
                     }
                     else if (opcaoCadastroEquipamentos == "2")
                     {
-                        bool temEquipamentos = TelaEquipamento.VisualizarEquipamentos(true);
+                        bool temEquipamentos = telaEquipamento.VisualizarEquipamentos(true);
 
                         if (temEquipamentos)
                             Console.ReadLine();
                     }
                     else if (opcaoCadastroEquipamentos == "3")
                     {
-                        TelaEquipamento.EditarEquipamento();
+                        telaEquipamento.EditarEquipamento();
                     }
                     else if (opcaoCadastroEquipamentos == "4")
                     {
-                        TelaEquipamento.ExcluirEquipamento();
+                        telaEquipamento.ExcluirEquipamento();
                     }
                 }
                 else if (opcao == "2")
                 {
-                    string opcaoCadastroChamados = TelaChamado.ApresentarMenuCadastroChamado();
+                    string opcaoCadastroChamados = telaChamado.ApresentarMenuCadastroChamado();
 
                     if (opcaoCadastroChamados == "s")
                         continue;
 
                     if (opcaoCadastroChamados == "1")
                     {
-                        TelaChamado.InserirNovoChamado();
+                        telaChamado.InserirNovoChamado();
                     }
                     else if (opcaoCadastroChamados == "2")
                     {
-                        bool temChamados = TelaChamado.VisualizarChamados(true);
+                        bool temChamados = telaChamado.VisualizarChamados(true);
 
                         if (temChamados)
                             Console.ReadLine();
                     }
                     else if (opcaoCadastroChamados == "3")
                     {
-                        TelaChamado.EditarChamado();
+                        telaChamado.EditarChamado();
                     }
                     else if (opcaoCadastroChamados == "4")
                     {
-                        TelaChamado.ExcluirChamado();
+                        telaChamado.ExcluirChamado();
                     }
                 }
             }
-        }        
-
-        public static void ApresentarMensagem(string mensagem, ConsoleColor cor)
-        {
-            Console.WriteLine();
-            Console.ForegroundColor = cor;
-            Console.WriteLine(mensagem);
-            Console.ResetColor();
-            Console.ReadLine();
-        }
-
-        public static void MostrarCabecalho(string titulo, string subtitulo)
-        {
-            Console.Clear();
-
-            Console.WriteLine();
-
-            Console.WriteLine(titulo);
-
-            Console.WriteLine();
-
-            Console.WriteLine(subtitulo);
-
-            Console.WriteLine();
-
-            Console.WriteLine();
         }
 
         static string ApresentarMenuPrincipal()
@@ -123,4 +110,7 @@ namespace GestaoEquipamentos.ConsoleApp
             return opcao;
         }
     }
+
+    
+
 }

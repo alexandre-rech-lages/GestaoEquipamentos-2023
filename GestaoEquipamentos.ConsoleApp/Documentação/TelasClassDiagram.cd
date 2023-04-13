@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GestaoEquipamentos.ConsoleApp.ModuloEquipamentos.TelaEquipamento">
+    <Position X="1" Y="2.75" Width="1.5" />
+    <AssociationLine Name="repositorioEquipamento" Type="GestaoEquipamentos.ConsoleApp.ModuloEquipamentos.RepositorioEquipamento" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.75" Y="5.137" />
+        <Point X="1.75" Y="6.188" />
+        <Point X="9.5" Y="6.188" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAIAAEAQEAAAAAAAAAAIAAAAAAIAAAAAIAAAA=</HashCode>
+      <FileName>ModuloEquipamentos\TelaEquipamento.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="repositorioEquipamento" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GestaoEquipamentos.ConsoleApp.TelaChamado">
+    <Position X="5.5" Y="3" Width="2.5" />
+    <AssociationLine Name="repositorioEquipamento" Type="GestaoEquipamentos.ConsoleApp.ModuloEquipamentos.RepositorioEquipamento" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8" Y="4.615" />
+        <Point X="10.5" Y="4.615" />
+        <Point X="10.5" Y="5.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAAAAABAAoAAAAAAQBIAQAAEAAAAA=</HashCode>
+      <FileName>ModuloChamados\TelaChamado.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="repositorioChamado" />
+      <Field Name="repositorioEquipamento" />
+      <Field Name="telaEquipamento" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GestaoEquipamentos.ConsoleApp.Compartilhado.Tela">
+    <Position X="3" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Compartilhado\Tela.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestaoEquipamentos.ConsoleApp.ModuloChamados.RepositorioChamado" Collapsed="true">
+    <Position X="10.25" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAEAAAAAQAAAAAAAAABIAAAAAEQAAA=</HashCode>
+      <FileName>ModuloChamados\RepositorioChamado.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestaoEquipamentos.ConsoleApp.ModuloEquipamentos.RepositorioEquipamento" Collapsed="true">
+    <Position X="9.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAEAAAAAQAAAAAAAAABAAAAAAEQAAA=</HashCode>
+      <FileName>ModuloEquipamentos\RepositorioEquipamento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

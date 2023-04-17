@@ -25,12 +25,14 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloChamados
             return erros;
         }
 
-        public void Atualizar(Chamado chamadoAtualizado)
+        public override void Atualizar(Entidade chamadoAtualizado)
         {
-            titulo = chamadoAtualizado.titulo;
-            descricao = chamadoAtualizado.descricao;
-            dataAbertura = chamadoAtualizado.dataAbertura;
-            equipamento = chamadoAtualizado.equipamento;
-        }
+            Chamado chamado = (Chamado)chamadoAtualizado;
+
+            titulo = chamado.titulo;
+            descricao = chamado.descricao;
+            dataAbertura = chamado.dataAbertura;
+            equipamento = chamado.equipamento;
+        }       
     }
 }

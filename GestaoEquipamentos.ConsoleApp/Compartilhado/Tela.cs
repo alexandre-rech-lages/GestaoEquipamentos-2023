@@ -38,6 +38,7 @@ namespace GestaoEquipamentos.ConsoleApp.Compartilhado
                 Console.WriteLine(erro);
 
             Console.ResetColor();
+            Console.ReadLine();
         }
 
 

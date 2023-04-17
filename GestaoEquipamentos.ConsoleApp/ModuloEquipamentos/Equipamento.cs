@@ -26,5 +26,16 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
             return erros;
         }
+
+        public override void Atualizar(Entidade equipamentoAtualizado)
+        {
+            Equipamento equipamento = (Equipamento)equipamentoAtualizado;
+
+            nome = equipamento.nome;
+            preco = equipamento.preco;
+            numeroSerie = equipamento.numeroSerie;
+            dataFabricacao = equipamento.dataFabricacao;
+            fabricante = equipamento.fabricante;
+        }
     }
 }

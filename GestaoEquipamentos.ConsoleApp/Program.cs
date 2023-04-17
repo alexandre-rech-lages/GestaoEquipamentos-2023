@@ -1,12 +1,22 @@
-﻿using GestaoEquipamentos.ConsoleApp.ModuloChamados;
+﻿using GestaoEquipamentos.ConsoleApp.Compartilhado;
+using GestaoEquipamentos.ConsoleApp.ModuloChamados;
 using GestaoEquipamentos.ConsoleApp.ModuloEquipamentos;
+using System.Collections;
 
 namespace GestaoEquipamentos.ConsoleApp
-{  
+{
     internal class Program
     {
+        //Herança e Polimorfismo
+        // Protected, Virtual, Override, Object        
         static void Main(string[] args)
         {
+            Chamado chamado = new Chamado();
+
+            Entidade chamado2 = chamado;
+
+            Object chamado3 = chamado;
+
             RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
             repositorioEquipamento.CadastrarAlgunsEquipamentosAutomaticamente();
 
@@ -111,6 +121,94 @@ namespace GestaoEquipamentos.ConsoleApp
         }
     }
 
+    class ProgramExemploHerancaPolimorfismo
+    {
 
+        static void Main2(string[] args)
+        {
+            Cachorro cachorro1 = new Cachorro();
 
+            Animal cachorro2 = cachorro1;
+
+            object cachorro3 = cachorro2;
+
+            ArrayList listaAnimais = new ArrayList();
+
+            Animal gato = new Gato();
+            Animal passaro = new Passaro();
+            Girafa girafa = new Girafa();
+            Animal animal = new Animal();
+
+            listaAnimais.Add(cachorro1);
+            listaAnimais.Add(gato);
+            listaAnimais.Add(passaro);
+            listaAnimais.Add(girafa);
+            listaAnimais.Add(animal);
+
+            foreach (Animal a in listaAnimais)
+            {
+                FazerSom(a);
+            }
+        }
+
+        static void FazerSom(Animal animal) //Polimorfismo
+        {
+            Console.WriteLine("Fazendo som: ");
+
+            animal.EmitirSom();
+
+            Console.WriteLine("------------");
+        }
+
+        //static void FazerSomDeCachorro(Cachorro cachorro)
+        //{
+        //    Console.WriteLine( "Fazendo som: " );
+        //    cachorro.EmitirSom();
+        //    Console.WriteLine( "------------" );
+        //}
+
+        //static void FazerSomDeGato(Gato gato)
+        //{
+        //    Console.WriteLine("Fazendo som: ");
+        //    gato.EmitirSom();
+        //    Console.WriteLine("------------");
+        //}
+    }
+
+    class Animal
+    {
+        public virtual void EmitirSom()
+        {
+            Console.WriteLine("Fazendo um som qualquer");
+        }
+    }
+
+    class Cachorro : Animal
+    {
+        public override void EmitirSom()
+        {
+            Console.WriteLine("au au");
+        }
+    }
+
+    class Gato : Animal
+    {
+        public override void EmitirSom()
+        {
+            Console.WriteLine("miau");
+        }
+    }
+
+    class Passaro : Animal
+    {
+        public override void EmitirSom()
+        {
+            Console.WriteLine("Piu piu");
+        }
+    }
+
+    class Girafa : Animal
+    {
+
+    }
 }

@@ -146,7 +146,7 @@ namespace GestaoEquipamentos.ConsoleApp
             Chamado chamado = new Chamado();
 
             int idEquipamento = telaEquipamento.EncontrarIdEquipamento();
-            chamado.equipamento = repositorioEquipamento.SelecionarPorId(idEquipamento);
+            chamado.equipamento = (Equipamento)repositorioEquipamento.SelecionarPorId(idEquipamento);
 
             Console.Write("Digite o título do chamado: ");
             chamado.titulo = Console.ReadLine();

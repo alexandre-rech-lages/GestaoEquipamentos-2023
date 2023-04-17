@@ -44,7 +44,7 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 
             if (erros.Count > 0)
             {
-                ApresentarErros(erros);
+                ApresentarErros(erros);                
                 return;
             }
             

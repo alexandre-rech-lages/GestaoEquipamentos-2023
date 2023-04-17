@@ -23,6 +23,14 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloChamados
                 erros.Add("O equipamento é obrigatório");
 
             return erros;
-        } 
+        }
+
+        public void Atualizar(Chamado chamadoAtualizado)
+        {
+            titulo = chamadoAtualizado.titulo;
+            descricao = chamadoAtualizado.descricao;
+            dataAbertura = chamadoAtualizado.dataAbertura;
+            equipamento = chamadoAtualizado.equipamento;
+        }
     }
 }

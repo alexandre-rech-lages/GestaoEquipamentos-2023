@@ -6,7 +6,15 @@ namespace GestaoEquipamentos.ConsoleApp.ModuloChamados
     public class RepositorioChamado : Repositorio
     {
         public RepositorioEquipamento repositorioEquipamento = null;
-              
+
+        public Chamado Chamados
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public void CadastrarAlgunsChamadosAutomaticamente()
         {
             Chamado chamado = new Chamado();

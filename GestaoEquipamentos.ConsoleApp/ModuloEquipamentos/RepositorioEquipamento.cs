@@ -4,7 +4,15 @@ using System.Collections;
 namespace GestaoEquipamentos.ConsoleApp.ModuloEquipamentos
 {
     public class RepositorioEquipamento : Repositorio
-    {                                        
+    {
+        public Equipamento Equipamentos
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public void CadastrarAlgunsEquipamentosAutomaticamente()
         {
             Equipamento equipamento = new Equipamento();

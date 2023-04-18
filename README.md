@@ -1,15 +1,8 @@
 # Gestão de Equipamentos
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/alexandre-rech-lages/GestaoEquipamentos-2023/dotnet-desktop.yml?style=for-the-badge)
+Gestão de Equipamentos é uma aplicação console construída durante a **9ª edição**, da [Academia do Programador](https://www.academiadoprogramador.net "Site da Academia do Programador").
 
-# Sobre o projeto
-
-Gestão de Equipamentos é uma aplicação console construída durante a **9ª edição da Academia do Programador**, evento organizado pela [Academia do Programador](https://www.academiadoprogramador.net "Site da Academia do Programador").
-
-A aplicação consiste na gestão de equipamentos e chamados para estes equipamentos
-
-## Layout Desktop
-![Print 01](https://github.com/alexandre-rech-lages/GestaoEquipamentos-2023/blob/master/GestaoEquipamentos.ConsoleApp/Documenta%C3%A7%C3%A3o/Prints/Visualiza%C3%A7%C3%A3o-Equipamentos.png?raw=true)
+A aplicação consiste no cadastro de equipamentos e controle de chamados para estes equipamentos.
 
 ## Funcionalidades
 
@@ -26,9 +19,6 @@ A aplicação consiste na gestão de equipamentos e chamados para estes equipamento
 	Requisito 2.2: Visualização de Chamados registrados
 	Requisito 2.3: Edição de Chamados já registrados
 	Requisito 2.4: Exclusão de Chamados já registrados
-
-## Modelo conceitual
-![Modelo Conceitual]()
 
 # Tecnologias utilizadas
 
@@ -57,7 +47,6 @@ dotnet run
 # Autores
 
 - Alexandre Rech
-- Tiago Santini
 
 https://www.linkedin.com/in/alexandre-rech
 

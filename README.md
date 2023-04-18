@@ -1,6 +1,6 @@
 # Gestão de Equipamentos
 
-[![NPM](https://img.shields.io/npm/l/react)]() 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/alexandre-rech-lages/GestaoEquipamentos-2023/dotnet-desktop.yml?style=for-the-badge)
 
 # Sobre o projeto
 

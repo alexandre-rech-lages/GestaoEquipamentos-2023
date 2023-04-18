@@ -1,0 +1,1 @@
+# GestaoEquipamentos-2023
